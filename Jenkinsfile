@@ -33,6 +33,7 @@ pipeline {
             }
         }
 
+/*
         // Detect new secrets added since last successful build
         stage("detect new secrets") {
             agent {
@@ -89,7 +90,7 @@ pipeline {
                 }
             }
         }
-
+*/
         stage("Dependency-Check") {
             agent {
                 docker {
