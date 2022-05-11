@@ -11,7 +11,7 @@
 
 pipeline {
     environment { // Environment variables defined for all steps
-        DOCKER_IMAGE = "d27caca68c62:5000/juice-shop"
+        DOCKER_IMAGE = "172.18.0.2:5000/juice-shop"
         TOOLS_IMAGE = "registry.demo.local:5000/tools-image"
         JENKINS_UID = 1001 // User ID under which Jenkins runs
         JENKINS_GID = 900 // Group ID under which Jenkins runs
