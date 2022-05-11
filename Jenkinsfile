@@ -150,8 +150,8 @@ pipeline {
             steps {
                 script {
                     writeFile file:"/etc/docker/daemon.json", text: "{
-                            "insecure-registries": [
-                               "172.18.0.2:5000"
+                            \"insecure-registries\": [
+                               \"172.18.0.2:5000\"
                             ]
                       }"
                     sh script: "service docker restart"
