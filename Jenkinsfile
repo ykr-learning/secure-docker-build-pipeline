@@ -11,8 +11,8 @@
 
 pipeline {
     environment { // Environment variables defined for all steps
-        DOCKER_IMAGE = "registry.demo.local:5000/juice-shop"
-        TOOLS_IMAGE = "registry:5000/tools-image"
+        DOCKER_IMAGE = "registry:5000/juice-shop"
+        TOOLS_IMAGE = "registry.demo.local:5000/tools-image"
         JENKINS_UID = 1001 // User ID under which Jenkins runs
         JENKINS_GID = 900 // Group ID under which Jenkins runs
         SONAR_KEY = "juice-shop"
@@ -149,7 +149,7 @@ pipeline {
         stage("Push to registry") {
             steps {
                 script {
-                    sh label: "Push to registry", script: "docker push http://${DOCKER_IMAGE}:$tag"
+                    sh label: "Push to registry", script: "docker push ${DOCKER_IMAGE}:$tag"
                 }
             }
         }
