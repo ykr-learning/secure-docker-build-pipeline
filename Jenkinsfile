@@ -149,11 +149,11 @@ pipeline {
         stage("Push to registry") {
             steps {
                 script {
-                    writeFile file:"/etc/docker/daemon.json", text: "{
+                    writeFile file:"/etc/docker/daemon.json", text: """{
                             \"insecure-registries\": [
                                \"172.18.0.2:5000\"
                             ]
-                      }"
+                      }"""
                     sh script: "service docker restart"
                     sh label: "Push to registry", script: "docker push ${DOCKER_IMAGE}:$tag"
 
