@@ -101,6 +101,8 @@ pipeline {
                     image "owasp/dependency-check:7.1.0"
                     // Set user to root, as the container runs by default under 100:101
                     args '''\
+                        -e user=$USER \
+                        -u $(id -u ${USER}):$(id -g ${USER}) \
                         --volume dependency-check:/usr/share/dependency-check/data:rw \
                         --volume ${WORKSPACE}:/src:ro \
                         --volume ${WORKSPACE}/reports:/reports:rw \
