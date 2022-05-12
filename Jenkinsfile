@@ -103,7 +103,7 @@ pipeline {
                     args '''\
                         --user 0 \
                         --volume dependency-check:/usr/share/dependency-check/data:rw \
-                        --volume ${WORKSPACE}:/src:ro \
+                        --volume ${WORKSPACE}:/:ro \
                         --volume ${WORKSPACE}/reports:/reports:rw \
                         --entrypoint ""
                     '''
