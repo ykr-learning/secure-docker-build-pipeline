@@ -102,7 +102,7 @@ pipeline {
                     // Set user to root, as the container runs by default under 100:101
                     args '''\
                         -e user=$USER \
-                        -u 100:101 \
+                        -u 0:0 \
                         --volume dependency-check:/usr/share/dependency-check/data:rw \
                         --volume ${WORKSPACE}:/src:ro \
                         --volume ${WORKSPACE}/reports:/reports:rw \
