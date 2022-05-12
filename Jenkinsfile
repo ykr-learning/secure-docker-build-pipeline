@@ -277,7 +277,9 @@ pipeline {
     post {
         always {
             sh label: "Stop sidecar container", script: "docker stop ${JOB_BASE_NAME}-${BUILD_ID}"
+            sh label: "List files", script: "ls -alR"
             archiveArtifacts artifacts: "*-results.txt"
+            archiveArtifacts artifacts: "*.html"
             publishHTML([
                 allowMissing: true,
                 alwaysLinkToLastBuild: true,
@@ -302,6 +304,10 @@ pipeline {
                 reportFiles: "zapreport.html",
                 reportName: "OWASP ZAP scanreport"
             ])
+            
+            print "send reports to warnings-ng-plugin"
+            recordIssues enabledForFailure: true, aggregatingResults: true, tools: [hadoLint(pattern: '**/hadolint-results.txt')]
+            
         }
     }
 }
