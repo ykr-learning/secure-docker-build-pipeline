@@ -98,7 +98,7 @@ pipeline {
         stage("Dependency-Check") {
             agent {
                 docker {
-                    image "owasp/dependency-check:5.3.0"
+                    image "owasp/dependency-check:7.1.0"
                     // Set user to root, as the container runs by default under 100:101
                     args '''\
                         --user 0 \
