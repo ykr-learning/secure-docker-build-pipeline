@@ -107,7 +107,7 @@ pipeline {
                         --volume ${WORKSPACE}/reports:/reports:rw \
                         --entrypoint ""
                     '''
-                    reuseNode true
+                    reuseNode false
                 }
             }
             steps {
