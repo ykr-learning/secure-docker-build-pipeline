@@ -32,7 +32,7 @@ pipeline {
                 sh label: "Check files", script: "ls -al"
 
                 sh label: "Check Dockerfile", script: "cat Dockerfile"
-                sh label: "Lint Dockerfile", script: "hadolint Dockerfile -f json > hadolint-results.txt"
+                sh label: "Lint Dockerfile", script: "hadolint Dockerfile -f json > hadolint-results.txt || true"
                 sh label: "Check hadolint result", script: "cat hadolint-results.txt"
             }
         }
