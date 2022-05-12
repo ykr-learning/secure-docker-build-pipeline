@@ -14,7 +14,6 @@ WORKDIR /app/
 COPY requirements.txt /app/
 
 # Install required packages
-# RUN pip install --no-cache-dir -r ./requirements.txt
 RUN pip install -r ./requirements.txt
 
 # Copy app.py and__init__.py outside the container
