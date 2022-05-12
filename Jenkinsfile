@@ -277,9 +277,10 @@ pipeline {
     post {
         always {
             sh label: "Stop sidecar container", script: "docker stop ${JOB_BASE_NAME}-${BUILD_ID}"
-            sh label: "List files", script: "ls -alR"
+            sh label: "List files current folder", script: "ls -al"
+            sh label: "List reports", script: "ls -al reports"
             archiveArtifacts artifacts: "*-results.txt"
-            archiveArtifacts artifacts: "*.html"
+            archiveArtifacts artifacts: "reports/*.html"
             publishHTML([
                 allowMissing: true,
                 alwaysLinkToLastBuild: true,
