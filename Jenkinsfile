@@ -289,14 +289,14 @@ pipeline {
                 reportFiles: "dependency-check-report.html",
                 reportName: "Dependency Check Report"
             ])
-            publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: "reports",
-                reportFiles: "nikto.html",
-                reportName: "Nikto.pl scanreport"
-            ])
+            // publishHTML([
+            //     allowMissing: true,
+            //     alwaysLinkToLastBuild: true,
+            //     keepAll: true,
+            //     reportDir: "reports",
+            //     reportFiles: "nikto.html",
+            //     reportName: "Nikto.pl scanreport"
+            // ])
             publishHTML([
                 allowMissing: true,
                 alwaysLinkToLastBuild: true,
