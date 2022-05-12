@@ -29,6 +29,8 @@ pipeline {
                 }
             }
             steps {
+                sh label: "Check files", script: "ls -al"
+
                 sh label: "Check Dockerfile", script: "cat Dockerfile"
                 sh label: "Lint Dockerfile", script: "hadolint Dockerfile > hadolint-results.txt"
                 sh label: "Check hadolint result", script: "cat hadolint-results.txt"
