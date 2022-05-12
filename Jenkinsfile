@@ -13,7 +13,7 @@ pipeline {
     environment { // Environment variables defined for all steps
         DOCKER_IMAGE = "172.18.0.2:5000/juice-shop"
         TOOLS_IMAGE = "registry.demo.local:5000/tools-image"
-        JENKINS_UID = 1001 // User ID under which Jenkins runs
+        JENKINS_UID = 998 // User ID under which Jenkins runs
         JENKINS_GID = 900 // Group ID under which Jenkins runs
         SONAR_KEY = "juice-shop"
     }
@@ -101,7 +101,7 @@ pipeline {
                     image "owasp/dependency-check:7.1.0"
                     // Set user to root, as the container runs by default under 100:101
                     args '''\
-                        --user 0 \
+                        --user 998 \
                         --volume dependency-check:/usr/share/dependency-check/data:rw \
                         --volume ${WORKSPACE}:/src:ro \
                         --volume ${WORKSPACE}/reports:/reports:rw \
@@ -185,70 +185,72 @@ pipeline {
             }
         }
 
-        // stage("Scan container") {
-        //     agent {
-        //         docker {
-        //             image "$TOOLS_IMAGE"
-        //             // Make sure that the container can access anchore-engine_api_1
-        //             args "--network=lab"
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         // Continue the build, even after policy failure
-        //         script {
-        //             sh label: "Ensure anchore is available",
-        //                 script: "anchore-cli system status"
-        //             sh label: "Add to queue",
-        //                 script: "anchore-cli image add ${DOCKER_IMAGE}:$tag"
-        //             sh label: "Wait for analysis",
-        //                 script: "anchore-cli image wait ${DOCKER_IMAGE}:$tag"
-        //             sh label: "Generate list of vulnerabilities",
-        //                 script: "anchore-cli image vuln $DOCKER_IMAGE:$tag all | tee anchore-results.txt"
-        //             def result = sh label: "Check policy",
-        //                 script: "anchore-cli evaluate check ${DOCKER_IMAGE}:$tag --detail >> anchore-results.txt"
-        //             if (result > 0) {
-        //                 unstable(message: "Policy check failed")
-        //             }
-        //         }
-        //     }
-        // }
+/*
+        stage("Scan container") {
+            agent {
+                docker {
+                    image "$TOOLS_IMAGE"
+                    // Make sure that the container can access anchore-engine_api_1
+                    args "--network=lab"
+                    reuseNode true
+                }
+            }
+            steps {
+                // Continue the build, even after policy failure
+                script {
+                    sh label: "Ensure anchore is available",
+                        script: "anchore-cli system status"
+                    sh label: "Add to queue",
+                        script: "anchore-cli image add ${DOCKER_IMAGE}:$tag"
+                    sh label: "Wait for analysis",
+                        script: "anchore-cli image wait ${DOCKER_IMAGE}:$tag"
+                    sh label: "Generate list of vulnerabilities",
+                        script: "anchore-cli image vuln $DOCKER_IMAGE:$tag all | tee anchore-results.txt"
+                    def result = sh label: "Check policy",
+                        script: "anchore-cli evaluate check ${DOCKER_IMAGE}:$tag --detail >> anchore-results.txt"
+                    if (result > 0) {
+                        unstable(message: "Policy check failed")
+                    }
+                }
+            }
+        }
 
-        // stage("nikto") {
-        //     agent {
-        //         docker {
-        //             image "$TOOLS_IMAGE"
-        //             // Make sure that the container can access the sidecar
-        //             args "--network=lab"
-        //             reuseNode true
-        //         }
-        //     }
-        //     steps {
-        //         script {
-        //             // Fail stage when Nikto finds something
-        //             def result = sh label: "nikto", returnStatus: true,
-        //                 script: """\
-        //                     mkdir -p reports &>/dev/null
-        //                     curl --max-time 120 \
-        //                         --retry 60 \
-        //                         --retry-connrefused \
-        //                         --retry-delay 5 \
-        //                         --fail \
-        //                         --silent http://${JOB_BASE_NAME}-${BUILD_ID}:3000 || exit 1
-        //                     rm reports/nikto.html &> /dev/null
-        //                     nikto.pl -ask no \
-        //                         -nointeractive \
-        //                         -output reports/nikto.html \
-        //                         -Plugins '@@ALL;-sitefiles' \
-        //                         -Tuning x7 \
-        //                         -host http://${JOB_BASE_NAME}-${BUILD_ID}:3000 > nikto.pl-results.txt
-        //                 """
-        //             if (result > 0) {
-        //                 unstable(message: "Web server scanner issues found")
-        //             }
-        //         }
-        //     }
-        // }
+        stage("nikto") {
+            agent {
+                docker {
+                    image "$TOOLS_IMAGE"
+                    // Make sure that the container can access the sidecar
+                    args "--network=lab"
+                    reuseNode true
+                }
+            }
+            steps {
+                script {
+                    // Fail stage when Nikto finds something
+                    def result = sh label: "nikto", returnStatus: true,
+                        script: """\
+                            mkdir -p reports &>/dev/null
+                            curl --max-time 120 \
+                                --retry 60 \
+                                --retry-connrefused \
+                                --retry-delay 5 \
+                                --fail \
+                                --silent http://${JOB_BASE_NAME}-${BUILD_ID}:3000 || exit 1
+                            rm reports/nikto.html &> /dev/null
+                            nikto.pl -ask no \
+                                -nointeractive \
+                                -output reports/nikto.html \
+                                -Plugins '@@ALL;-sitefiles' \
+                                -Tuning x7 \
+                                -host http://${JOB_BASE_NAME}-${BUILD_ID}:3000 > nikto.pl-results.txt
+                        """
+                    if (result > 0) {
+                        unstable(message: "Web server scanner issues found")
+                    }
+                }
+            }
+        }
+*/
 
         stage("OWASP ZAP") {
             agent {
