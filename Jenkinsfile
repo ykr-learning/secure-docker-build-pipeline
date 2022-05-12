@@ -242,9 +242,9 @@ pipeline {
         stage("OWASP ZAP") {
             agent {
                 docker {
-                    image "owasp/zap2docker-weekly"
+                    image "owasp/zap2docker-stable"
                     // Make sure that the container can access the sidecar
-                    args "--network=lab --tty --volume ${WORKSPACE}:/zap/wrk"
+                    args "--network=lab --tty --volume ${WORKSPACE}:/zap/wrk:rw"
                     reuseNode true
                 }
             }
