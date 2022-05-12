@@ -258,13 +258,13 @@ pipeline {
                                 --retry-connrefused \
                                 --retry-delay 5 \
                                 --fail \
-                                --silent http://${JOB_BASE_NAME}-${BUILD_ID}:3000 || exit 1
+                                --silent http://${JOB_BASE_NAME}-${BUILD_ID}:80 || exit 1
                             zap-baseline.py \
                             -m 5 \
                             -T 5\
                             -I \
                             -r reports/zapreport.html \
-                            -t "http://${JOB_BASE_NAME}-${BUILD_ID}:3000"
+                            -t "http://${JOB_BASE_NAME}-${BUILD_ID}:80"
                     """
                     if (result > 0) {
                         unstable(message: "OWASP ZAP issues found")
