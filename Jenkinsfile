@@ -116,6 +116,8 @@ pipeline {
                     // sh label: 'purge dependency-check after version upgrade', script: '/usr/share/dependency-check/bin/dependency-check.sh --purge'
 
                     sh label: 'check src', script: 'ls -al /src'
+                    sh label: 'check reports', script: 'ls -al /reports'
+                    sh label: 'check wd', script: 'ls -al'
 
                     // Fail stage when a vulnerability having a base CVSS score of 6 or higher is found
                     def result = sh label: "dependency-check", returnStatus: true,
