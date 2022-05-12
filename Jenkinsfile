@@ -120,8 +120,8 @@ pipeline {
                     sh label: 'check reports', script: 'ls -al /reports'
                     sh label: 'check wd', script: 'ls -al'
 
-                    sh label: 'copy src files', script: 'cp ./* /src/ --force'
-                    sh label: 'check src', script: 'ls -al /src'
+                    // sh label: 'copy src files', script: 'cp ./* /src/ --force'
+                    // sh label: 'check src', script: 'ls -al /src'
 
                     // Fail stage when a vulnerability having a base CVSS score of 6 or higher is found
                     def result = sh label: "dependency-check", returnStatus: true,
@@ -133,7 +133,7 @@ pipeline {
                             --failOnCVSS 6 \
                             --out "${WORKSPACE}/reports" \
                             --project "${JOB_BASE_NAME}" \
-                            --scan "/src"
+                            --scan "."
                             # Fix permissions as this container is being run as root
                             chown "${JENKINS_UID}:${JENKINS_GID}" reports/dependency-check-report.html
                         """
