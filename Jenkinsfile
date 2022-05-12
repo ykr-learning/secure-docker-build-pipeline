@@ -24,7 +24,7 @@ pipeline {
         stage("lint") {
             agent {
                 docker {
-                    image "docker.io/hadolint/hadolint:v2.9.2"
+                    image "docker.io/hadolint/hadolint:v2.9.3"
                     reuseNode true
                 }
             }
